@@ -113,7 +113,14 @@ ccm.component( {
 										toDoList.append(li);
 										li.css("position","relative");
 										li.animate({left : "-=100%", opacity : 0},0).animate({left : "+=100%",opacity : 1},1000,
-											function(){self.store.set( dataset, function () { self.render(); } );}
+											function(){
+												self.store.set( dataset, 
+													function () { 
+														if(ccm.helper.find(self,"*:animated").length == 0)
+															self.render(); 
+													} 
+												);
+											}
 										);
 									} 
 								);
@@ -127,28 +134,34 @@ ccm.component( {
 							}
 						);
 						var radioDiv = element.find(".radioDiv");
+						switch(self.toDoItemFilter){
+							case self.isOpenOrDone:
+								radioDiv.find("#all").prop("checked", true);
+								break;
+							case self.isDone:
+								radioDiv.find("#done").prop("checked", true);
+								break;
+							case self.isOpen:
+								radioDiv.find("#open").prop("checked", true);
+								break;
+						}
 						radioDiv.find("#all").click(
 							function(e){
 								self.toDoItemFilter = self.isOpenOrDone;
-								self.render(function(){
-									ccm.helper.find( self, "#" + e.delegateTarget.id).prop("checked", true);
-								});
+								self.render();
 							}
 						);
+						
 						radioDiv.find("#done").click(
 							function(e){
 								self.toDoItemFilter = self.isDone;
-								self.render(function(){
-									ccm.helper.find( self, "#" + e.delegateTarget.id).prop("checked", true);
-								});
+								self.render();
 							}
 						);
 						radioDiv.find("#open").click(
 							function(e){
 								self.toDoItemFilter = self.isOpen;
-								self.render(function(){
-									ccm.helper.find( self, "#" + e.delegateTarget.id).prop("checked", true);
-								});
+								self.render();
 							}
 						);
 						dataset.toDoList.forEach(
@@ -169,6 +182,7 @@ ccm.component( {
 				callback();
 			console.log("exit");
 		};
+		/* construct list element from dataset */
 		self.constructLi = function(dataset, el, i){
 			var li = ccm.helper.html( self.html.get( 'listItem' ));
 			var dragDiv = li.children("div");
@@ -205,13 +219,18 @@ ccm.component( {
 					li.css("position","relative");
 					li.animate({left : "+=100%", opacity: 0},1000,
 						function(){
-							self.store.set( dataset, function () { self.render(); })	
+							self.store.set( dataset, 
+								function () { 
+									if(ccm.helper.find(self,"*:animated").length == 0)
+										self.render(); 
+								}
+							);	
 						}
 					);
 					
 				}
 			);
-			
+			// add listener for drag and drop
 			self.addDrag($(li),$(dragDiv), 
 				function(a,b){
 					self.user.login( 
