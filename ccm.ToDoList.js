@@ -66,7 +66,6 @@ ccm.component( {
 				if(callback)
 					callback(self.dragging.a,self.dragging.b);
 			};
-			//$(dragLi).on("drop",onDrop);
 			$(dragLi).on("dragend",onDrop);
 			
 		};
@@ -109,7 +108,12 @@ ccm.component( {
 								self.user.login( 
 									function () {
 										dataset.toDoList.push({text : ccm.helper.val(element.find("input:text").val()), user : self.user.data().key, done : false});
-										self.store.set( dataset, function () { self.render(); } );
+										var li = self.constructLi(dataset,dataset.toDoList[dataset.toDoList.length-1], dataset.toDoList.length-1);
+										toDoList.append(li);
+										li.css("position","relative");
+										li.animate({left : "-=100%", opacity : 0},0).animate({left : "+=100%",opacity : 1},1000,
+											function(){self.store.set( dataset, function () { self.render(); } );}
+										);
 									} 
 								);
 							}
@@ -147,63 +151,7 @@ ccm.component( {
 								}
 								if(!self.toDoItemFilter(el))
 									return;
-								var li = ccm.helper.html( self.html.get( 'listItem' ));
-								var dragDiv = li.children("div");
-								var checkBox = li.find("div.chkBox:first");
-								var delButton = li.find("div.delButton");
-								
-								li.find("span.text").text(dataset.toDoList[i].text);
-								li.find("span.user").text(dataset.toDoList[i].user);
-								checkBox.text("\u2713");
-								delButton.text("\u2718");
-								if(el.done)
-									checkBox.addClass("checked");
-								else 
-									checkBox.removeClass("checked");
-								checkBox.click(
-									function(){
-										if(dataset.toDoList[i].done){
-											dataset.toDoList[i].done = false;
-											checkBox.removeClass("checked");
-										} else {
-											dataset.toDoList[i].done = true;
-											checkBox.addClass("checked");
-										}
-										
-										self.store.set( dataset);
-									}
-								);
-								delButton.click(
-									function(){
-										self.removeFromArray(dataset.toDoList, i);
-										self.store.set( dataset, function () { self.render(); });
-									}
-								);
-								
-								self.addDrag($(li),$(dragDiv), 
-									function(a,b){
-										self.user.login( 
-											function () {
-												console.log("move " + a + " " + b);
-												if(a > b){
-													var tmp = dataset.toDoList[a];
-													for(var i = a; i > b; --i){
-														dataset.toDoList[i] = dataset.toDoList[i - 1];
-													}
-													dataset.toDoList[b] = tmp;
-												} else if(a < b){
-													var tmp = dataset.toDoList[a];
-													for(var i = a; i < b; ++i){
-														dataset.toDoList[i] = dataset.toDoList[i + 1];
-													}
-													dataset.toDoList[b] = tmp;
-												}
-												self.store.set( dataset, function () { self.render(); });
-											} 
-										);
-									}
-								);
-								toDoList.append(li);
+								toDoList.append(self.constructLi(dataset,el,i));
 							}
 						);
 					}
@@ -213,6 +161,73 @@ ccm.component( {
 				callback();
 			console.log("exit");
 		};
-
+		self.constructLi = function(dataset, el, i){
+			var li = ccm.helper.html( self.html.get( 'listItem' ));
+			var dragDiv = li.children("div");
+			var checkBox = li.find("div.chkBox:first");
+			var delButton = li.find("div.delButton");
+			
+			li.find("span.text").text(dataset.toDoList[i].text);
+			if(el.done)
+				li.find("span.text").css("text-decoration","line-through");
+			li.find("span.user").text(dataset.toDoList[i].user);
+			checkBox.text("\u2713");
+			delButton.text("\u2718");
+			if(dataset.toDoList[i].done)
+				checkBox.addClass("checked");
+			else 
+				checkBox.removeClass("checked");
+			checkBox.click(
+				function(){
+					if(dataset.toDoList[i].done){
+						dataset.toDoList[i].done = false;
+						checkBox.removeClass("checked");
+					} else {
+						dataset.toDoList[i].done = true;
+						checkBox.addClass("checked");
+					}
+					
+					self.store.set( dataset,function(){self.render()});
+					
+				}
+			);
+			delButton.click(
+				function(){
+					self.removeFromArray(dataset.toDoList, i);
+					li.css("position","relative");
+					li.animate({left : "+=100%", opacity: 0},1000,
+						function(){
+							self.store.set( dataset, function () { self.render(); })	
+						}
+					);
+					
+				}
+			);
+			
+			self.addDrag($(li),$(dragDiv), 
+				function(a,b){
+					self.user.login( 
+						function () {
+							console.log("move " + a + " " + b);
+							if(a > b){
+								var tmp = dataset.toDoList[a];
+								for(var i = a; i > b; --i){
+									dataset.toDoList[i] = dataset.toDoList[i - 1];
+								}
+								dataset.toDoList[b] = tmp;
+							} else if(a < b){
+								var tmp = dataset.toDoList[a];
+								for(var i = a; i < b; ++i){
+									dataset.toDoList[i] = dataset.toDoList[i + 1];
+								}
+								dataset.toDoList[b] = tmp;
+							}
+							self.store.set( dataset, function () { self.render(); });
+						} 
+					);
+				}
+			);
+			return li;
+		}
 	}
 } );
