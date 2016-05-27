@@ -59,7 +59,8 @@
       },
       {
         "tag" : "input",
-        "type" : "text"
+        "type" : "text",
+        "class" : "newItemText"
       },
       {
         "tag" : "input",
@@ -96,24 +97,5 @@
         ]
       }
     ]
-  },
-  "filterButtons" : {
-    "tag" : "fieldset" ,
-    "inner" : [
-      {
-        "tag" : "input",
-        "type" : "radio",
-        "id" : "all"
-      },
-      {
-        "tag" : "label",
-        "for" : "all"
-      },
-      {
-        "tag" : "br"
-      }
-      
-    ]
   }
-
 }

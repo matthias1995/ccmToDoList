@@ -102,13 +102,14 @@ ccm.component( {
 					function proceed( dataset ) {
 						
 						var toDoList = ccm.helper.find( self, '.toDoList' );
-						
+						var newItemText = element.find("input:text.newItemText");
 						element.find(".addButton").click(
 							function(){
 								self.user.login( 
 									function () {
-										dataset.toDoList.push({text : ccm.helper.val(element.find("input:text").val()), user : self.user.data().key, done : false});
+										dataset.toDoList.push({text : ccm.helper.val(newItemText.val()), user : self.user.data().key, done : false});
 										var li = self.constructLi(dataset,dataset.toDoList[dataset.toDoList.length-1], dataset.toDoList.length-1);
+										newItemText.val("");
 										toDoList.append(li);
 										li.css("position","relative");
 										li.animate({left : "-=100%", opacity : 0},0).animate({left : "+=100%",opacity : 1},1000,
@@ -116,6 +117,13 @@ ccm.component( {
 										);
 									} 
 								);
+							}
+						);
+						newItemText.keypress(
+							function(e){
+								if(e.keyCode == 13){
+									element.find(".addButton").click();
+								}
 							}
 						);
 						var radioDiv = element.find(".radioDiv");

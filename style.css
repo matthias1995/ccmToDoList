@@ -75,6 +75,7 @@
 	font-size:100%;
 	//font-weight: bold;
 	color: transparent;
+	background-color : white;
 }
 
 .ccm-ToDoList > * .chkBox:hover , .delButton:hover{
