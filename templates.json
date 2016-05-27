@@ -1,0 +1,119 @@
+{
+  "listContainer":{
+    "tag": "div",
+    "class": "listContainer",
+    "inner" : [
+      {
+        "tag" : "ul",
+        "class" : "toDoList"
+      },
+      {
+        "tag" : "div",
+        "class" : "radioDiv",
+        "inner" : [
+          {
+            "tag" : "input",
+            "type" : "radio",
+            "id" : "all",
+            "name" : "toDoFilter"
+          },
+          {
+            "tag" : "label",
+            "for" : "all",
+            "inner" : "All"
+          },
+          {
+            "tag" : "br"
+          },
+          
+          {
+            "tag" : "input",
+            "type" : "radio",
+            "id" : "done",
+            "name" : "toDoFilter"
+          },
+          {
+            "tag" : "label",
+            "for" : "done",
+            "inner" : "Only done"
+          },
+          {
+            "tag" : "br"
+          },
+          
+           {
+            "tag" : "input",
+            "type" : "radio",
+            "id" : "open",
+            "name" : "toDoFilter"
+          },
+          {
+            "tag" : "label",
+            "for" : "open",
+            "inner" : "Only open"
+          },
+          {
+            "tag" : "br"
+          }
+        ]
+      },
+      {
+        "tag" : "input",
+        "type" : "text"
+      },
+      {
+        "tag" : "input",
+        "type" : "button",
+        "class" : "addButton",
+        "value" : "Add"
+      }
+     ]
+  },
+  "listItem":{
+    "tag" : "li",
+    "inner":[
+      {
+        "tag" : "div",
+        "draggable" : "true",
+        "inner":[
+            {
+              "tag" : "span" ,
+              "class" : "user"
+            },
+            {
+              "tag" : "span" ,
+               "class" : "text"
+            },
+            {
+              "tag" : "div",
+              "type" : "button",
+              "class" : "delButton"
+            },
+            {
+              "tag" : "div",
+              "class" : "chkBox"
+            }
+        ]
+      }
+    ]
+  },
+  "filterButtons" : {
+    "tag" : "fieldset" ,
+    "inner" : [
+      {
+        "tag" : "input",
+        "type" : "radio",
+        "id" : "all"
+      },
+      {
+        "tag" : "label",
+        "for" : "all"
+      },
+      {
+        "tag" : "br"
+      }
+      
+    ]
+  }
+
+}

@@ -1,0 +1,82 @@
+/**
+ * @overview sytle for ccm ToDoList
+ * @author Matthias Bernard 2016
+ */
+
+.ccm-ToDoList > .listContainer {
+	border-style: solid;
+	display: inline-block;
+}
+.ccm-ToDoList > .listContainer > .toDoFilter {
+	display : inline-block;
+	margin-right: 1em;
+}
+
+.ccm-ToDoList > .listContainer > ul {
+	list-style: circle ; 
+}
+
+.ccm-ToDoList > .listContainer > ul > li {
+	margin: auto;
+	margin-top: 5px;
+}
+
+.ccm-ToDoList > .listContainer > ul > li > div {
+	display : inline-block;
+	padding-right: 10px;
+}
+.ccm-ToDoList > .listContainer > ul > li> .dragging {
+	opacity : 0.2;
+	box-shadow : 0px 0px 20px 5px rgba(0,0,0,1);
+}
+.ccm-ToDoList > .listContainer > ul > li > * span.user{
+	margin: auto;
+	border-style: dashed;
+	border-width: 1px;
+	display: inline-block;
+	width: 5em;
+}
+.ccm-ToDoList > .listContainer > ul > li > * span.text{
+	display: inline-block;
+	width: 15em;
+	padding-left: 1em;
+	border-style: dashed;
+	border-width: 1px;
+	
+}
+
+.ccm-ToDoList > .listContainer > ul > li > div > .delButton{
+	display:inline-block;
+		
+	border-style : solid;
+	border-color: black;
+	border-width:1px;
+
+	width:1em;
+	height:1em;
+	text-align:center;
+	line-height:1em;
+	font-size:100%;
+	background-color: red;
+	margin-right:1em;
+}
+
+
+.ccm-ToDoList > * .chkBox{
+	border-style : solid;
+	border-color: black;
+	display:inline-block;
+	border-width:1px;
+	width:1em;
+	height:1em;
+	text-align:center;
+	line-height:1em;
+	font-size:100%;
+	//font-weight: bold;
+	color: transparent;
+}
+
+.ccm-ToDoList > * .checked{
+	background-color: lightgreen;
+	color: black;
+}
