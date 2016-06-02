@@ -23,7 +23,7 @@ ccm.component( {
 			}
 			array.pop();
 		};
-
+/*------------------------------- DragAndDrop Event handler ---------------------------------------*/
 		self.addDrag = function(dragLi, dragDiv, callback){
 			function onDragOver(e){
 				e.preventDefault();
@@ -69,6 +69,8 @@ ccm.component( {
 			$(dragLi).on("dragend",onDrop);
 			
 		};
+
+/*------------------------------- filter Functions ---------------------------------------*/
 		self.isOpenOrDone = function(toDoItem){
 			return true;
 		};
@@ -78,12 +80,14 @@ ccm.component( {
 		self.isDone = function(toDoItem){
 			return toDoItem.done;
 		};
+/*------------------------------- init Function ---------------------------------------*/
 		self.init = function ( callback ) {
 			console.log("call init");
 			self.store.onChange = function(){self.render();};
 			self.toDoItemFilter = self.isOpenOrDone;
 			callback();
 		};
+/*------------------------------- Render Function ---------------------------------------*/
 		self.render = function ( callback ) {
 			console.log("call render");
 			
@@ -182,7 +186,7 @@ ccm.component( {
 				callback();
 			console.log("exit");
 		};
-		/* construct list element from dataset */
+/*------------------------------- construct list element from dataset ---------------------------------------*/
 		self.constructLi = function(dataset, el, i){
 			var li = ccm.helper.html( self.html.get( 'listItem' ));
 			var dragDiv = li.children("div");
